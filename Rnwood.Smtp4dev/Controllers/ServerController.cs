@@ -83,6 +83,7 @@ namespace Rnwood.Smtp4dev.Controllers
                 Port = serverOptionsCurrentValue.Port,
                 ImapPort = serverOptionsCurrentValue.ImapPort,
                 Pop3Port = serverOptionsCurrentValue.Pop3Port,
+                ImapTlsMode = serverOptionsCurrentValue.ImapTlsMode.ToString(),
                 Pop3TlsMode = serverOptionsCurrentValue.Pop3TlsMode.ToString(),
                 Pop3SecureConnectionRequired = serverOptionsCurrentValue.Pop3SecureConnectionRequired,
                 HostName = serverOptionsCurrentValue.HostName,
@@ -268,6 +269,7 @@ namespace Rnwood.Smtp4dev.Controllers
             newSettings.NumberOfSessionsToKeep = serverUpdate.NumberOfSessionsToKeep != defaultSettingsFile.ServerOptions.NumberOfSessionsToKeep ? serverUpdate.NumberOfSessionsToKeep : null;
             newSettings.ImapPort = serverUpdate.ImapPort != defaultSettingsFile.ServerOptions.ImapPort ? serverUpdate.ImapPort : null;
             newSettings.Pop3Port = serverUpdate.Pop3Port != defaultSettingsFile.ServerOptions.Pop3Port ? serverUpdate.Pop3Port : null;
+            newSettings.ImapTlsMode = Enum.Parse<TlsMode>(serverUpdate.ImapTlsMode) != defaultSettingsFile.ServerOptions.ImapTlsMode ? Enum.Parse<TlsMode>(serverUpdate.ImapTlsMode) : null;
             newSettings.Pop3TlsMode = Enum.Parse<TlsMode>(serverUpdate.Pop3TlsMode) != defaultSettingsFile.ServerOptions.Pop3TlsMode ? Enum.Parse<TlsMode>(serverUpdate.Pop3TlsMode) : null;
             newSettings.Pop3SecureConnectionRequired = serverUpdate.Pop3SecureConnectionRequired != defaultSettingsFile.ServerOptions.Pop3SecureConnectionRequired ? serverUpdate.Pop3SecureConnectionRequired : null;
             newSettings.DisableMessageSanitisation = serverUpdate.DisableMessageSanitisation != defaultSettingsFile.ServerOptions.DisableMessageSanitisation ? serverUpdate.DisableMessageSanitisation : null;
@@ -351,7 +353,7 @@ namespace Rnwood.Smtp4dev.Controllers
         public DesktopOptionsSource DesktopOptions { get; set; }
     }
 
-  
+
     [JsonSourceGenerationOptions(WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, ReadCommentHandling =JsonCommentHandling.Skip, UseStringEnumConverter = true)]
     [JsonSerializable(typeof(SettingsFile))]
     internal partial class SettingsFileSerializationContext : JsonSerializerContext

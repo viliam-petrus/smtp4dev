@@ -14,6 +14,7 @@ export default class Server {
     constructor(isRunning: boolean, exception: string, portNumber: number, hostName: string, allowRemoteConnections: boolean, numberOfMessagesToKeep: number, numberOfSessionsToKeep: number, imapPortNumber: number, pop3PortNumber: number, settingsAreEditable: boolean, disableMessageSanitisation: boolean, automaticRelayExpression: string, tlsMode: string, credentialsValidationExpression: string,
         authenticationRequired: boolean,
         secureConnectionRequired: boolean, recipientValidationExpression: string, messageValidationExpression: string, commandValidationExpression: string, disableIPv6: string, users: User[],
+        imapTlsMode: string | undefined,
         pop3TlsMode: string | undefined,
         pop3SecureConnectionRequired: boolean,
         relayTlsMode: string | undefined,
@@ -23,7 +24,7 @@ export default class Server {
         relaySenderAddress: string,
         relayLogin: string,
         relayPassword: string,
-        webAuthenticationRequired: boolean, 
+        webAuthenticationRequired: boolean,
         deliverMessagesToUsersDefaultMailbox: boolean,
         smtpAllowAnyCredentials: boolean,
         lockedSettings: { [key: string]: string },
@@ -36,7 +37,7 @@ export default class Server {
         currentUserDefaultMailboxName: string,
         htmlValidateConfig: string
     ) {
-        
+
         this.isRunning = isRunning;
         this.exception = exception;
         this.portNumber = portNumber;
@@ -53,6 +54,7 @@ export default class Server {
         this.credentialsValidationExpression = credentialsValidationExpression;
         this.authenticationRequired = authenticationRequired;
         this.secureConnectionRequired = secureConnectionRequired;
+        this.imapTlsMode = imapTlsMode;
         this.pop3TlsMode = pop3TlsMode;
         this.pop3SecureConnectionRequired = pop3SecureConnectionRequired;
         this.relayTlsMode = relayTlsMode;
@@ -76,7 +78,6 @@ export default class Server {
         this.htmlValidateConfig = htmlValidateConfig;
         this.imapPort = imapPortNumber;
         this.pop3Port = pop3PortNumber;
-        this.pop3TlsMode = pop3TlsMode;
         this.pop3SecureConnectionRequired = pop3SecureConnectionRequired;
         this.recipientValidationExpression = recipientValidationExpression;
         this.messageValidationExpression = messageValidationExpression;
@@ -102,6 +103,7 @@ export default class Server {
     credentialsValidationExpression: string;
     authenticationRequired: boolean;
     secureConnectionRequired: boolean;
+    imapTlsMode: string | undefined;
     pop3TlsMode: string | undefined;
     pop3SecureConnectionRequired: boolean;
     recipientValidationExpression: string;

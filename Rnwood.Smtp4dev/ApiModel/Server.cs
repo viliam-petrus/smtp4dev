@@ -31,6 +31,7 @@ namespace Rnwood.Smtp4dev.ApiModel
 
         public int? ImapPort { get; set; }
         public int? Pop3Port { get; set; }
+        public string ImapTlsMode { get; set; }
         public string Pop3TlsMode { get; set; }
         public bool Pop3SecureConnectionRequired { get; set; }
 

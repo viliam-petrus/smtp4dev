@@ -32,6 +32,7 @@ namespace Rnwood.Smtp4dev.Server.Settings
 
         public TlsMode Pop3TlsMode { get; set; } = TlsMode.None;
 
+        public TlsMode ImapTlsMode { get; set; } = TlsMode.None;
         [AllowNull]
         public string SslProtocols { get; set; } = null;
 
@@ -83,7 +84,7 @@ namespace Rnwood.Smtp4dev.Server.Settings
         public bool DisableHtmlCompatibilityCheck { get; set; } = false;
 
         public long? MaxMessageSize { get; set; }
-        
+
         public bool ValidateBareLineFeed { get; set; } = false;
 
         public bool Pop3SecureConnectionRequired { get; set; } = false;

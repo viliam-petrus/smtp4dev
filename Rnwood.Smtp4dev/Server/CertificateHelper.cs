@@ -65,7 +65,7 @@ namespace Rnwood.Smtp4dev.Server
         {
             X509Certificate2 cert = null;
 
-            logger.Information("TLS mode: {TLSMode} Pop3TlsMode: {Pop3TlsMode}", options.TlsMode, options.Pop3TlsMode);
+            logger.Information("TLS mode: {TLSMode} Pop3TlsMode: {Pop3TlsMode} ImapTlsMode: {ImapTlsMode}", options.TlsMode, options.Pop3TlsMode, options.ImapTlsMode);
 
             if (!string.IsNullOrEmpty(options.SslProtocols))
             {
@@ -77,8 +77,8 @@ namespace Rnwood.Smtp4dev.Server
                 logger.Information("TLS cipher suites: {TlsCipherSuites}", options.TlsCipherSuites);
             }
 
-            // Consider both global TlsMode and POP3-specific Pop3TlsMode when deciding whether a certificate is required
-            if (options.TlsMode != TlsMode.None || (options.Pop3TlsMode != TlsMode.None))
+            // Consider global TlsMode, POP3-specific Pop3TlsMode, and IMAP-specific ImapTlsMode when deciding whether a certificate is required
+            if (options.TlsMode != TlsMode.None || options.Pop3TlsMode != TlsMode.None || options.ImapTlsMode != TlsMode.None)
             {
                 if (!string.IsNullOrEmpty(options.TlsCertificateStoreThumbprint))
                 {

@@ -27,6 +27,7 @@ namespace Rnwood.Smtp4dev.Server.Settings
         public string BasePath { get; set; }
 
         public TlsMode? TlsMode { get; set; }
+        public TlsMode? ImapTlsMode { get; set; }
         public TlsMode? Pop3TlsMode { get; set; }
 
         public string TlsCertificateStoreThumbprint { get; set; }

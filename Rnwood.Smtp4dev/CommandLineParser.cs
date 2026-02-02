@@ -18,7 +18,7 @@ namespace Rnwood.Smtp4dev
 
             bool help = false;
             bool hadBadArgs = false;
-            
+
             // Check if delivertostdout is enabled - if so, help hint goes to stderr to keep stdout clean for message content
             bool deliverToStdout = args.Any(a => a.StartsWith("--delivertostdout", StringComparison.OrdinalIgnoreCase));
 
@@ -48,6 +48,7 @@ namespace Rnwood.Smtp4dev
                 { "relaytlsmode=",  "Sets the TLS mode when connecting to relay SMTP server. See: http://www.mimekit.net/docs/html/T_MailKit_Security_SecureSocketOptions.htm", data => map.Add(data, x => x.RelayOptions.TlsMode) },
                 { "imapport=", "Specifies the port the IMAP server will listen on - allows standard email clients to view/retrieve messages. Specify --imapport=\"\" to disable the IMAP server.", data => map.Add(data, x => x.ServerOptions.ImapPort) },
                 { "pop3port=", "Specifies the port the POP3 server will listen on - allows standard email clients to retrieve messages. Specify --pop3port=\"\" to disable the POP3 server.", data => map.Add(data, x => x.ServerOptions.Pop3Port) },
+                { "imaptlsmode=", "Specifies the TLS mode for IMAP (None|StartTls|ImplicitTls).", data => map.Add(data, x => x.ServerOptions.ImapTlsMode) },
                 { "pop3tlsmode=", "Specifies the TLS mode for POP3 (None|StartTls|ImplicitTls).", data => map.Add(data, x => x.ServerOptions.Pop3TlsMode) },
                 { "pop3secureconnectionrequired", "Require secure connection (TLS) for POP3 clients", data => map.Add((data != null).ToString(), x => x.ServerOptions.Pop3SecureConnectionRequired) },
                 { "nousersettings", "Skip loading of appsetttings.json file in %APPDATA%", data => map.Add((data != null).ToString(), x => x.NoUserSettings) },

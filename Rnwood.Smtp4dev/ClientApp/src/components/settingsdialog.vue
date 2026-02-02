@@ -165,8 +165,8 @@
                         </el-form-item>
 
                         <el-form-item label="Credentials validation expression" prop="server.credentialsValidationExpression">
-                            <expressioninput 
-                                v-model="server.credentialsValidationExpression" 
+                            <expressioninput
+                                v-model="server.credentialsValidationExpression"
                                 expression-type="credentials"
                                 placeholder="Enter JavaScript expression to validate credentials..."
                                 :disabled="server.lockedSettings.credentialsValidationExpression">
@@ -177,8 +177,8 @@
                         </el-form-item>
 
                         <el-form-item label="Recipient validation expression" prop="server.recipientValidationExpression">
-                            <expressioninput 
-                                v-model="server.recipientValidationExpression" 
+                            <expressioninput
+                                v-model="server.recipientValidationExpression"
                                 expression-type="recipient"
                                 placeholder="Enter JavaScript expression to validate recipients..."
                                 :disabled="server.lockedSettings.recipientValidationExpression">
@@ -189,8 +189,8 @@
                         </el-form-item>
 
                         <el-form-item label="Message validation expression" prop="server.messageValidationExpression">
-                            <expressioninput 
-                                v-model="server.messageValidationExpression" 
+                            <expressioninput
+                                v-model="server.messageValidationExpression"
                                 expression-type="message"
                                 placeholder="Enter JavaScript expression to validate messages..."
                                 :disabled="server.lockedSettings.messageValidationExpression">
@@ -201,8 +201,8 @@
                         </el-form-item>
 
                         <el-form-item label="Command validation expression" prop="server.commandValidationExpression">
-                            <expressioninput 
-                                v-model="server.commandValidationExpression" 
+                            <expressioninput
+                                v-model="server.commandValidationExpression"
                                 expression-type="command"
                                 placeholder="Enter JavaScript expression to validate commands..."
                                 :disabled="server.lockedSettings.commandValidationExpression">
@@ -219,6 +219,17 @@
                             <el-icon v-if="server.lockedSettings.imapPort" :title="`Locked: ${server.lockedSettings.imapPort}`"><Lock /></el-icon>
                             <el-input-number :min=0 :max=65535 controls-position="right" v-model="server.imapPort" :disabled="server.lockedSettings.imapPort">
                             </el-input-number>
+                        </el-form-item>
+                        <el-form-item label="TLS mode" prop="server.imapTlsMode">
+                            <el-icon v-if="server.lockedSettings.imapTlsMode" :title="`Locked: ${server.lockedSettings.imapTlsMode}`"><Lock /></el-icon>
+                            <el-select v-model="server.imapTlsMode" style="width: 100%;" :disabled="server.lockedSettings.imapTlsMode">
+                                <el-option key="None" label="None" value="None"></el-option>
+                                <el-option key="StartTls" label="STARTTLS (client requests TLS after session starts)" value="StartTls"></el-option>
+                                <el-option key="ImplicitTls" label="Implicit TLS (TLS immediately)" value="ImplicitTls"></el-option>
+                                <template #prefix>
+                                    <el-icon v-if="server.lockedSettings.imapTlsMode" :title="`Locked: ${server.lockedSettings.imapTlsMode}`"><Lock /></el-icon>
+                                </template>
+                            </el-select>
                         </el-form-item>
                     </el-tab-pane>
                     <el-tab-pane label="POP3 Server">
@@ -243,7 +254,7 @@
                             <el-switch v-model="server.pop3SecureConnectionRequired" :disabled="server.lockedSettings.pop3SecureConnectionRequired" />
                         </el-form-item>
                     </el-tab-pane>
-                    
+
                     <el-tab-pane label="Message Relay">
                         <el-form-item label="Message Relay Enabled" prop="isRelayEnabled">
                             <el-icon v-if="server.lockedSettings.relaySmtpServer" :title="`Locked: ${server.lockedSettings.relaySmtpServer}`"><Lock /></el-icon>
@@ -312,8 +323,8 @@
                         </el-form-item>
 
                         <el-form-item label="Auto relay expression" prop="server.relayAutomaticRelayExpression" v-show="isRelayEnabled">
-                            <expressioninput 
-                                v-model="server.relayAutomaticRelayExpression" 
+                            <expressioninput
+                                v-model="server.relayAutomaticRelayExpression"
                                 expression-type="relay"
                                 placeholder="Enter JavaScript expression for auto relay logic..."
                                 :disabled="server.lockedSettings.relayAutomaticRelayExpression">

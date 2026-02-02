@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.NetworkInformation;
@@ -69,6 +70,14 @@ namespace Rnwood.Smtp4dev.Server
                 return;
             }
 
+            // Get TLS certificate if IMAP TLS is enabled
+            X509Certificate2 cert = null;
+            SslMode sslMode = SslMode.None;
+            if (serverOptions.CurrentValue.ImapTlsMode != TlsMode.None)
+            {
+                cert = CertificateHelper.GetTlsCertificate(serverOptions.CurrentValue, log);
+                sslMode = serverOptions.CurrentValue.ImapTlsMode == TlsMode.ImplicitTls ? SslMode.SSL : SslMode.TLS;
+            }
 
             List<IPBindInfo> bindings = new List<IPBindInfo>();
 
@@ -86,31 +95,31 @@ namespace Rnwood.Smtp4dev.Server
             if (bindAddress != null)
             {
                 // Use the specific bind address when configured
-                bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, bindAddress, serverOptions.CurrentValue.ImapPort.Value));
+                bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, bindAddress, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
             }
             else if (serverOptions.CurrentValue.AllowRemoteConnections)
             {
                 if (!serverOptions.CurrentValue.DisableIPv6)
                 {
                     // Add IPv6 binding first, IPv4 fallback will be handled by the LumiSoft TCP_Server error handling
-                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.IPv6Any, serverOptions.CurrentValue.ImapPort.Value));
+                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.IPv6Any, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
                     // Add IPv4 as fallback in case IPv6 fails
-                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Any, serverOptions.CurrentValue.ImapPort.Value));
+                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Any, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
                 }
                 else
                 {
-                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Any, serverOptions.CurrentValue.ImapPort.Value));
+                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Any, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
 
                 }
             }
             else
             {
-                bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Loopback, serverOptions.CurrentValue.ImapPort.Value));
+                bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.Loopback, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
 
                 if (!serverOptions.CurrentValue.DisableIPv6)
                 {
                     // Add IPv6 loopback first, IPv4 loopback already added above as fallback
-                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.IPv6Loopback, serverOptions.CurrentValue.ImapPort.Value));
+                    bindings.Add(new IPBindInfo(serverOptions.CurrentValue.HostName, BindInfoProtocol.TCP, System.Net.IPAddress.IPv6Loopback, serverOptions.CurrentValue.ImapPort.Value, sslMode, cert));
                 }
             }
 
